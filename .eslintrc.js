@@ -19,5 +19,10 @@ module.exports = {
     'react'
   ],
   rules: {
+    'react/react-in-jsx-scope': 0,
+    'react/prop-types': 0,
+    semi: 0,
+    'no-extra-semi': 0,
+    'eol-last': 0
   }
 }
