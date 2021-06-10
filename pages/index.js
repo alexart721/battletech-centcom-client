@@ -2,13 +2,18 @@ import Head from 'next/head';
 // import Link from 'next/link';
 import Login from '../components/login';
 import Register from '../components/register';
+import React, { useState } from 'react';
+// import auth from '../utils/auth';
+// import apiServiceJWT from './../ApiServiceJWT';
 
 export default function Home () {
-  let isUser = true;
+  const [userStatus, setUserStatus] = useState(true);
 
   const handleClick = (e) => {
-    if (isUser) isUser = false;
-    else isUser = true;
+    setUserStatus(currentStatus => {
+      if (currentStatus) currentStatus = false;
+      else currentStatus = true;
+    })
   }
 
   return (
@@ -17,8 +22,8 @@ export default function Home () {
         <title>Battletech CENTCOM</title>
       </Head>
       <h2>Welcome to Battletech!</h2>
-      {isUser ? <Login /> : <Register />}
-      <button onClick={handleClick}>{isUser ? 'Register' : 'Login'}</button>
+      {userStatus ? <Login /> : <Register />}
+      <button onClick={handleClick}>{userStatus ? 'Register' : 'Login'}</button>
     </div>
   );
 }
