@@ -50,28 +50,28 @@ const Register = (props) => {
       <form className="form" onSubmit={handleSubmit}>
         <input
           type="text"
-          placeholder="name@mail.com"
+          placeholder="Username"
           name="userName"
           value={state.userName}
           onChange={handleChange}
         />
         <input
           type="password"
-          placeholder="supersecretthingy"
+          placeholder="Password"
           name="password"
           value={state.password}
           onChange={handleChange}
         />
         <input
           type="text"
-          placeholder="Name"
+          placeholder="First name"
           name="firstName"
           value={state.firstName}
           onChange={handleChange}
         />
         <input
           type="text"
-          placeholder="Nameson"
+          placeholder="Last name"
           name="lastName"
           value={state.lastName}
           onChange={handleChange}

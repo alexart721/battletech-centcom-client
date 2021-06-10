@@ -11,8 +11,8 @@ export default function Home () {
 
   const handleClick = (e) => {
     setUserStatus(currentStatus => {
-      if (currentStatus) currentStatus = false;
-      else currentStatus = true;
+      if (currentStatus) return false;
+      return true;
     })
   }
 
