@@ -1,5 +1,12 @@
-function Home() {
-  return (<div>Welcome to Battletech! Are you serious?</div>);
-}
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
+import { createStore } from 'redux';
 
-export default Home;
+let store = createStore();
+
+ReactDOM.render(
+  <Provider store={store}>
+    <h2>Welcome to Battletech!</h2>
+  </Provider>
+);
