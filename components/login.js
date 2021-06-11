@@ -1,14 +1,16 @@
 import React, { useState } from 'react';
+import { useRouter } from 'next/router';
 // import auth from '../utils/auth';
-// import apiServiceJWT from './../ApiServiceJWT';
+import { login } from '../services/ApiServiceJWT';
 
 const initialState = {
-  userName: '',
+  email: '',
   password: ''
 };
 
 const Login = (props) => {
   const [state, setState] = useState(initialState);
+  const router = useRouter();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -20,24 +22,24 @@ const Login = (props) => {
 
   const handleSubmit = async (e) => {
     // Check the session branch to see how to handle redirects
-    // e.preventDefault();
-    // const { userName, password } = state;
-    // const user = { userName, password };
-    // const res = await apiServiceJWT.login(user);
+    e.preventDefault();
+    const { email, password } = state;
+    const user = { email, password };
+    const res = await login(user);
 
-    // if (res.error) {
-    //   alert(`${res.message}`);
-    //   setState(initialState);
-    // } else {
-    //   const { accessToken } = res;
-    //   localStorage.setItem('accessToken', accessToken);
-    //   props.setIsAuthenticated(true);
-    //   auth.login(() => props.history.push('/profile'));
-    // }
+    if (res.error) {
+      alert(`${res.message}`);
+      setState(initialState);
+    } else {
+      const { accessToken } = res;
+      localStorage.setItem('accessToken', accessToken);
+      // props.setIsAuthenticated(true);
+      router.push('/dashboard');
+    }
   };
 
   const validateForm = () => {
-    return !state.userName || !state.password;
+    return !state.email || !state.password;
   };
 
   return (
@@ -46,9 +48,9 @@ const Login = (props) => {
       <form className="form" onSubmit={handleSubmit}>
         <input
           type="text"
-          placeholder="Username"
-          name="userName"
-          value={state.userName}
+          placeholder="Email"
+          name="email"
+          value={state.email}
           onChange={handleChange}
         />
         <input

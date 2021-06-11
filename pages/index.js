@@ -6,7 +6,7 @@ import React, { useState } from 'react';
 // import auth from '../utils/auth';
 // import apiServiceJWT from './../ApiServiceJWT';
 
-export default function Home () {
+export default function Gate () {
   const [userStatus, setUserStatus] = useState(true);
 
   const handleClick = (e) => {

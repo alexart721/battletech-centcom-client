@@ -1,21 +1,23 @@
 import React, { useState } from 'react';
+import { useRouter } from 'next/router';
 // import auth from '../utils/auth';
-// import apiServiceJWT from './../ApiServiceJWT';
+import { register } from '../services/ApiServiceJWT';
 
-const initialState = {
-  userName: '',
+const initialUser = {
+  email: '',
   password: '',
   firstName: '',
   lastName: ''
 };
 
 const Register = (props) => {
-  const [state, setState] = useState(initialState);
+  const [user, setUser] = useState(initialUser); // Make this redux probably
+  const router = useRouter();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setState((prevState) => ({
-      ...prevState,
+    setUser((prevUser) => ({
+      ...prevUser,
       [name]: value
     }));
   };
@@ -23,24 +25,23 @@ const Register = (props) => {
   const handleSubmit = async (e) => {
     // Check the client-session to see how to handle redirects
     e.preventDefault();
-    // const { userName, password, firstName, lastName } = state;
-    // const user = { userName, password, firstName, lastName };
-    // const res = await apiServiceJWT.register(user);
+    const res = await register(user);
 
-    // if (res.error) {
-    //   alert(`${res.message}`);
-    //   setState(initialState);
-    // } else {
-    //   const { accessToken } = res;
-    //   localStorage.setItem('accessToken', accessToken);
-    //   props.setIsAuthenticated(true);
-    //   auth.login(() => props.history.push('/profile'));
-    // }
+    if (res.error) {
+      alert(`${res.message}`);
+      setUser(initialUser);
+    } else {
+      const { accessToken } = res;
+      localStorage.setItem('accessToken', accessToken);
+      router.push('/dashboard');
+      // props.setIsAuthenticated(true);
+      // auth.login(() => props.history.push('/profile'));
+    }
   };
 
   const validateForm = () => {
     return (
-      !state.userName || !state.password || !state.firstName || !state.lastName
+      !user.email || !user.password || !user.firstName || !user.lastName
     );
   };
 
@@ -50,30 +51,30 @@ const Register = (props) => {
       <form className="form" onSubmit={handleSubmit}>
         <input
           type="text"
-          placeholder="Username"
-          name="userName"
-          value={state.userName}
+          placeholder="Email"
+          name="email"
+          value={user.email}
           onChange={handleChange}
         />
         <input
           type="password"
           placeholder="Password"
           name="password"
-          value={state.password}
+          value={user.password}
           onChange={handleChange}
         />
         <input
           type="text"
           placeholder="First name"
           name="firstName"
-          value={state.firstName}
+          value={user.firstName}
           onChange={handleChange}
         />
         <input
           type="text"
           placeholder="Last name"
           name="lastName"
-          value={state.lastName}
+          value={user.lastName}
           onChange={handleChange}
         />
         <button className="form-submit" type="submit" disabled={validateForm()}>
