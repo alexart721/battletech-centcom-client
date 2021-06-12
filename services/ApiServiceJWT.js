@@ -1,4 +1,6 @@
-const BASE_URL = 'http://localhost:3001'; // Update for deployment
+// Set server URL in environment variables
+// const BASE_URL = 'http://localhost:3001'; // For local dev
+const BASE_URL = 'https://battletech-centcom-server.herokuapp.com/'; // For Vercel deployment
 
 const register = (user) => {
   return customFetch('/register', {
@@ -34,10 +36,9 @@ const profile = (accessToken) => {
 
 // ADD ONE MORE FOR DASHBOARD
 
-const logout = (tokenName) => {
+const logout = (tokenName, accessToken) => {
   // Delete token from local storage here
   localStorage.removeItem(tokenName);
-  console.log('Client API');
   // Invalidate the token
   return customFetch('/logout', {
     method: 'POST',
@@ -45,7 +46,7 @@ const logout = (tokenName) => {
     mode: 'cors',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${tokenName}`
+      Authorization: `Bearer ${accessToken}`
     }
   });
 };

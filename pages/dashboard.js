@@ -16,8 +16,11 @@ export default function Dashboard () {
   useEffect(async () => {
     const accessToken = localStorage.getItem('accessToken');
     const res = await profile(accessToken);
-    if (!res || res.message) {
-      alert(`${res.message}`) || alert('Please log in again.');
+    if (!res) {
+      alert('Please log in again.');
+      return router.push('/');
+    } else if (res.message) {
+      alert(`${res.message}`);
       return router.push('/');
     }
     const { firstName, lastName, email } = res;
@@ -30,8 +33,8 @@ export default function Dashboard () {
   }, []);
 
   const handleClick = async (e) => {
-    // const accessToken = localStorage.getItem('accessToken');
-    const res = await logout('accessToken');
+    const accessToken = localStorage.getItem('accessToken');
+    const res = await logout('accessToken', accessToken);
     alert(`${res.message}`);
     router.push('/');
   }
