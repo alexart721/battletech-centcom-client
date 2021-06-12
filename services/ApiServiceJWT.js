@@ -35,20 +35,19 @@ const profile = (accessToken) => {
 // ADD ONE MORE FOR DASHBOARD
 
 const logout = (tokenName) => {
-  // delete token from local storage here
+  // Delete token from local storage here
   localStorage.removeItem(tokenName);
-  // the following request should invalidate the token
-  // return fetch(`${BASE_URL}/logout`, {
-  //   method: 'POST',
-  //   credentials: 'include',
-  //   mode: 'cors',
-  //   headers: {
-  //     'Content-Type': 'application/json',
-  //     Authorization: `Bearer ${tokenName}`,
-  //   },
-  // })
-  //   .then((res) => res.json())
-  //   .catch((err) => console.log(err));
+  console.log('Client API');
+  // Invalidate the token
+  return customFetch('/logout', {
+    method: 'POST',
+    credentials: 'include',
+    mode: 'cors',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${tokenName}`
+    }
+  });
 };
 
 const customFetch = (path, options) => {

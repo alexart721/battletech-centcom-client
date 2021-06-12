@@ -15,9 +15,12 @@ export default function Dashboard () {
 
   useEffect(async () => {
     const accessToken = localStorage.getItem('accessToken');
-    console.log('In dashboard', accessToken);
-    const { firstName, lastName, email } = await profile(accessToken);
-    console.log('In dashboard', firstName);
+    const res = await profile(accessToken);
+    if (!res || res.message) {
+      alert(`${res.message}`) || alert('Please log in again.');
+      return router.push('/');
+    }
+    const { firstName, lastName, email } = res;
     setUser(oldUser => ({
       ...oldUser,
       firstName,
@@ -27,7 +30,9 @@ export default function Dashboard () {
   }, []);
 
   const handleClick = async (e) => {
-    await logout('accessToken'); // Update when invalidating token server side
+    // const accessToken = localStorage.getItem('accessToken');
+    const res = await logout('accessToken');
+    alert(`${res.message}`);
     router.push('/');
   }
 

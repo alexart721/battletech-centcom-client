@@ -23,9 +23,7 @@ const Login = (props) => {
   const handleSubmit = async (e) => {
     // Check the session branch to see how to handle redirects
     e.preventDefault();
-    const { email, password } = state;
-    const user = { email, password };
-    const res = await login(user);
+    const res = await login(state);
 
     if (res.error) {
       alert(`${res.message}`);
