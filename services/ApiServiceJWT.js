@@ -1,6 +1,6 @@
 // Set server URL in environment variables
 // const BASE_URL = 'http://localhost:3001'; // For local dev
-const BASE_URL = 'https://battletech-centcom-server.herokuapp.com/'; // For Vercel deployment
+const BASE_URL = 'https://battletech-centcom-server.herokuapp.com'; // For Vercel deployment
 
 const register = (user) => {
   return customFetch('/register', {
