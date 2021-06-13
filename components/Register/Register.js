@@ -87,7 +87,7 @@ const Register = (props) => {
         </div>
         <div className={styles.formItem}>
           <button className={styles.formSubmit} type="submit" disabled={validateForm()}>
-            &nbsp;Login&nbsp;
+            &nbsp;Register&nbsp;
           </button>
         </div>
         <div className={`${styles.formItem} ${styles.registerText}`}>
@@ -95,42 +95,6 @@ const Register = (props) => {
         </div>
       </form>
     </div>
-    // <div>
-    //   <h2>Register</h2>
-    //   <form className="form" onSubmit={handleSubmit}>
-    //     <input
-    //       type="text"
-    //       placeholder="Email"
-    //       name="email"
-    //       value={user.email}
-    //       onChange={handleChange}
-    //     />
-    //     <input
-    //       type="password"
-    //       placeholder="Password"
-    //       name="password"
-    //       value={user.password}
-    //       onChange={handleChange}
-    //     />
-    //     <input
-    //       type="text"
-    //       placeholder="First name"
-    //       name="firstName"
-    //       value={user.firstName}
-    //       onChange={handleChange}
-    //     />
-    //     <input
-    //       type="text"
-    //       placeholder="Last name"
-    //       name="lastName"
-    //       value={user.lastName}
-    //       onChange={handleChange}
-    //     />
-    //     <button className="form-submit" type="submit" disabled={validateForm()}>
-    //       &nbsp;Register&nbsp;
-    //     </button>
-    //   </form>
-    // </div>
   );
 };
 
