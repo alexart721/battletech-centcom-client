@@ -5,7 +5,7 @@ const Navbar = () => {
   return (
     <>
       <div className={styles.navbar}>
-        <h2 className={styles.navbarText}>Battletech</h2>
+        <h2 className={styles.navbarText}>Battletech CENTCOM</h2>
       </div>
       <div className={styles.navbarBottomBorder}></div>
     </>

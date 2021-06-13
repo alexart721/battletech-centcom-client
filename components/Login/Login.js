@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 // import auth from '../utils/auth';
 import { login } from '../../services/ApiServiceJWT';
@@ -43,28 +44,33 @@ const Login = (props) => {
 
   return (
     <div className={styles.loginContainer}>
-      <h2>Login</h2>
-      <form className="form" onSubmit={handleSubmit}>
-        <div className={styles.inputs}>
-          <input
+      <h2 className={styles.formTitle}>Login</h2>
+      <form className={styles.form} onSubmit={handleSubmit}>
+        <div className={styles.formItem}>
+          <input className={styles.input}
             type="text"
             placeholder="Email"
             name="email"
             value={state.email}
             onChange={handleChange}
           />
-          <input
+          {!state.email ? <span className={styles.reqFieldWarn}>Please enter your email address</span> : <></>}
+          <input className={styles.input}
             type="password"
             placeholder="Password"
             name="password"
             value={state.password}
             onChange={handleChange}
           />
+          {!state.password ? <span className={styles.reqFieldWarn}>Please enter your password</span> : <></>}
         </div>
-        <div>
+        <div className={styles.formItem}>
           <button className={styles.formSubmit} type="submit" disabled={validateForm()}>
             &nbsp;Login&nbsp;
           </button>
+        </div>
+        <div className={`${styles.formItem} ${styles.registerText}`}>
+          Not a user? Please {' '} <Link href="/"><a onClick={props.handleClick}>register.</a></Link>
         </div>
       </form>
     </div>

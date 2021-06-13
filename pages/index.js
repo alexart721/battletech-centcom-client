@@ -25,9 +25,7 @@ export default function Gate () {
       </Head>
       <Navbar />
       <div className={styles.test}>
-        <h2>Welcome to Battletech!</h2>
-        {userStatus ? <Login /> : <Register />}
-        <button onClick={handleClick}>{userStatus ? 'Register' : 'Login'}</button>
+        {userStatus ? <Login handleClick={handleClick}/> : <Register handleClick={handleClick}/>}
       </div>
     </div>
   );

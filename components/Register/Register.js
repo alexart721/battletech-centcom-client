@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 // import auth from '../utils/auth';
 import { register } from '../../services/ApiServiceJWT';
+import styles from './Register.module.css';
 
 const initialUser = {
   email: '',
@@ -46,42 +48,89 @@ const Register = (props) => {
   };
 
   return (
-    <div>
-      <h2>Register</h2>
-      <form className="form" onSubmit={handleSubmit}>
-        <input
-          type="text"
-          placeholder="Email"
-          name="email"
-          value={user.email}
-          onChange={handleChange}
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          name="password"
-          value={user.password}
-          onChange={handleChange}
-        />
-        <input
-          type="text"
-          placeholder="First name"
-          name="firstName"
-          value={user.firstName}
-          onChange={handleChange}
-        />
-        <input
-          type="text"
-          placeholder="Last name"
-          name="lastName"
-          value={user.lastName}
-          onChange={handleChange}
-        />
-        <button className="form-submit" type="submit" disabled={validateForm()}>
-          &nbsp;Register&nbsp;
-        </button>
+    <div className={styles.registerContainer}>
+      <h2 className={styles.formTitle}>Register</h2>
+      <form className={styles.form} onSubmit={handleSubmit}>
+        <div className={styles.formItem}>
+        <input className={styles.input}
+            type="text"
+            placeholder="First name"
+            name="firstName"
+            value={user.firstName}
+            onChange={handleChange}
+          />
+          {!user.firstName ? <span className={styles.reqFieldWarn}>Please enter your first name</span> : <></>}
+          <input className={styles.input}
+            type="text"
+            placeholder="Last name"
+            name="lastName"
+            value={user.lastName}
+            onChange={handleChange}
+          />
+          {!user.firstName ? <span className={styles.reqFieldWarn}>Please enter your last name</span> : <></>}
+          <input className={styles.input}
+            type="text"
+            placeholder="Email"
+            name="email"
+            value={user.email}
+            onChange={handleChange}
+          />
+          {!user.email ? <span className={styles.reqFieldWarn}>Please enter your email address</span> : <></>}
+          <input className={styles.input}
+            type="password"
+            placeholder="Password"
+            name="password"
+            value={user.password}
+            onChange={handleChange}
+          />
+          {!user.password ? <span className={styles.reqFieldWarn}>Please enter your password</span> : <></>}
+        </div>
+        <div className={styles.formItem}>
+          <button className={styles.formSubmit} type="submit" disabled={validateForm()}>
+            &nbsp;Login&nbsp;
+          </button>
+        </div>
+        <div className={`${styles.formItem} ${styles.registerText}`}>
+          Already a user? Please {' '} <Link href="/"><a onClick={props.handleClick}>login.</a></Link>
+        </div>
       </form>
     </div>
+    // <div>
+    //   <h2>Register</h2>
+    //   <form className="form" onSubmit={handleSubmit}>
+    //     <input
+    //       type="text"
+    //       placeholder="Email"
+    //       name="email"
+    //       value={user.email}
+    //       onChange={handleChange}
+    //     />
+    //     <input
+    //       type="password"
+    //       placeholder="Password"
+    //       name="password"
+    //       value={user.password}
+    //       onChange={handleChange}
+    //     />
+    //     <input
+    //       type="text"
+    //       placeholder="First name"
+    //       name="firstName"
+    //       value={user.firstName}
+    //       onChange={handleChange}
+    //     />
+    //     <input
+    //       type="text"
+    //       placeholder="Last name"
+    //       name="lastName"
+    //       value={user.lastName}
+    //       onChange={handleChange}
+    //     />
+    //     <button className="form-submit" type="submit" disabled={validateForm()}>
+    //       &nbsp;Register&nbsp;
+    //     </button>
+    //   </form>
+    // </div>
   );
 };
 
