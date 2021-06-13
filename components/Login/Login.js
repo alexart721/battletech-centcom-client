@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 // import auth from '../utils/auth';
-import { login } from '../services/ApiServiceJWT';
+import { login } from '../../services/ApiServiceJWT';
+import styles from './Login.module.css';
 
 const initialState = {
   email: '',
@@ -41,26 +42,30 @@ const Login = (props) => {
   };
 
   return (
-    <div>
+    <div className={styles.loginContainer}>
       <h2>Login</h2>
       <form className="form" onSubmit={handleSubmit}>
-        <input
-          type="text"
-          placeholder="Email"
-          name="email"
-          value={state.email}
-          onChange={handleChange}
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          name="password"
-          value={state.password}
-          onChange={handleChange}
-        />
-        <button className="form-submit" type="submit" disabled={validateForm()}>
-          &nbsp;Login&nbsp;
-        </button>
+        <div className={styles.inputs}>
+          <input
+            type="text"
+            placeholder="Email"
+            name="email"
+            value={state.email}
+            onChange={handleChange}
+          />
+          <input
+            type="password"
+            placeholder="Password"
+            name="password"
+            value={state.password}
+            onChange={handleChange}
+          />
+        </div>
+        <div>
+          <button className={styles.formSubmit} type="submit" disabled={validateForm()}>
+            &nbsp;Login&nbsp;
+          </button>
+        </div>
       </form>
     </div>
   );
