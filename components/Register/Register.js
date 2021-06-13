@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 // import auth from '../utils/auth';
-import { register } from '../services/ApiServiceJWT';
+import { register } from '../../services/ApiServiceJWT';
 
 const initialUser = {
   email: '',

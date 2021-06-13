@@ -1,7 +1,7 @@
 import Head from 'next/head';
 // import Link from 'next/link';
 import Login from '../components/Login/Login';
-import Register from '../components/Register';
+import Register from '../components/Register/Register';
 import Navbar from '../components/Navbar/Navbar';
 import React, { useState } from 'react';
 import styles from './index.module.css';
