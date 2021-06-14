@@ -4,13 +4,27 @@
   background-color: #231f20;
   display: flex;
   align-items: center;
+  justify-content: space-between;
 }
 
 .navbarText {
   color: white;
+  margin-left: 1rem;
 }
 
 .navbarBottomBorder {
   height: 0.5rem;
   background-image: url('/old-hazard-stripes-texture.jpg');
+}
+
+.navButtons {
+  display: flex;
+  align-items: center;
+  margin-right: 1rem;
+}
+
+.navBtn {
+  margin-left: 2rem;
+  text-decoration: none;
+  color: white;
 }

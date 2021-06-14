@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-// import auth from '../utils/auth';
-import { register } from '../../services/ApiServiceJWT';
+import { register } from '../../services';
 import styles from './Register.module.css';
+import AuthContext from '../../services/AuthContext';
 
 const initialUser = {
   email: '',
@@ -13,7 +13,8 @@ const initialUser = {
 };
 
 const Register = (props) => {
-  const [user, setUser] = useState(initialUser); // Make this redux probably
+  const [user, setUser] = useState(initialUser);
+  const { setAuth } = useContext(AuthContext);
   const router = useRouter();
 
   const handleChange = (e) => {
@@ -22,7 +23,7 @@ const Register = (props) => {
       ...prevUser,
       [name]: value
     }));
-  };
+  }
 
   const handleSubmit = async (e) => {
     // Check the client-session to see how to handle redirects
@@ -35,9 +36,8 @@ const Register = (props) => {
     } else {
       const { accessToken } = res;
       localStorage.setItem('accessToken', accessToken);
+      setAuth(true);
       router.push('/dashboard');
-      // props.setIsAuthenticated(true);
-      // auth.login(() => props.history.push('/profile'));
     }
   };
 
@@ -91,7 +91,7 @@ const Register = (props) => {
           </button>
         </div>
         <div className={`${styles.formItem} ${styles.registerText}`}>
-          Already a user? Please {' '} <Link href="/"><a onClick={props.handleClick}>login.</a></Link>
+          Already a user? Please {' '} <Link href="/"><a onClick={props.handleClick}>login</a></Link>.
         </div>
       </form>
     </div>

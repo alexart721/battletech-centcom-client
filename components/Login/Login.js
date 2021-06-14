@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-// import auth from '../utils/auth';
-import { login } from '../../services/ApiServiceJWT';
+import { login } from '../../services';
 import styles from './Login.module.css';
+import AuthContext from '../../services/AuthContext';
 
 const initialState = {
   email: '',
@@ -12,6 +12,7 @@ const initialState = {
 
 const Login = (props) => {
   const [state, setState] = useState(initialState);
+  const { setAuth } = useContext(AuthContext);
   const router = useRouter();
 
   const handleChange = (e) => {
@@ -27,13 +28,13 @@ const Login = (props) => {
     e.preventDefault();
     const res = await login(state);
 
-    if (res.error) {
+    if (res.error || !res) {
       alert(`${res.message}`);
       setState(initialState);
     } else {
       const { accessToken } = res;
       localStorage.setItem('accessToken', accessToken);
-      // props.setIsAuthenticated(true);
+      setAuth(true);
       router.push('/dashboard');
     }
   };
@@ -70,7 +71,7 @@ const Login = (props) => {
           </button>
         </div>
         <div className={`${styles.formItem} ${styles.registerText}`}>
-          Not a user? Please {' '} <Link href="/"><a onClick={props.handleClick}>register.</a></Link>
+          Not a user? Please {' '} <Link href="/"><a onClick={props.handleClick}>register</a></Link>.
         </div>
       </form>
     </div>
