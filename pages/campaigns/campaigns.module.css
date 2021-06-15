@@ -40,6 +40,8 @@
   align-items: center;
   width: 25rem;
   margin-top: 2rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
 }
 
 .form {
@@ -57,12 +59,11 @@
 .formItem {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-end;
 }
 
 .changeCampaigns {
-  font-size: 0.8rem;
-  margin-left: 0.5rem;
+  font-size: .8rem;
 }
 
 .createButton {
@@ -86,7 +87,7 @@
 }
 
 .reqFieldWarn {
-  align-self: center;
+  align-self: flex-end;
   color: red;
   font-size: 0.7rem;
   margin-bottom: 0.5rem;
@@ -111,7 +112,12 @@
   height: 2rem;
 }
 
-.chooseMechBtn {
+.editSubmit {
+  display: flex;
+  justify-content: center;
+}
+
+.editSubmitBtn {
   border: 0;
   background: none;
   box-shadow: none;

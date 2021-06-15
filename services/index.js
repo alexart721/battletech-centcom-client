@@ -1,5 +1,6 @@
 import { register, login, logout, profile, updateProfile } from './userApi';
-import { getCampaign, getCampaigns, createCampaign, updateCampaign } from './cpgnApi';
+import { getCampaign, getAllCampaigns, getCurrentCampaigns, getPastCampaigns, createCampaign, updateCampaign } from './campaignApi';
+import { createMech, getMechs, assignMech } from './mechApi';
 
 module.exports = {
   register,
@@ -8,7 +9,12 @@ module.exports = {
   profile,
   updateProfile,
   getCampaign,
-  getCampaigns,
+  getAllCampaigns,
+  getCurrentCampaigns,
+  getPastCampaigns,
   createCampaign,
-  updateCampaign
+  updateCampaign,
+  createMech,
+  getMechs,
+  assignMech
 }

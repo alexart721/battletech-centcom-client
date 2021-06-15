@@ -15,7 +15,7 @@ const initialUser = {
 
 export default function Profile () {
   const [user, setUser] = useState(initialUser);
-  const { isAuthenticated, setAuth } = useContext(AuthContext);
+  const { setAuth } = useContext(AuthContext);
   const router = useRouter();
 
   useEffect(async () => {
@@ -38,7 +38,7 @@ export default function Profile () {
       lastName,
       email
     }));
-  }, [isAuthenticated]);
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;

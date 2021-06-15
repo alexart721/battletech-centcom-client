@@ -1,11 +1,12 @@
 import Head from 'next/head';
-import { profile, createCampaign } from '../../services';
+import { profile, createCampaign, getCurrentCampaigns, getPastCampaigns } from '../../services';
 import { useRouter } from 'next/router';
 import { useContext, useEffect, useState } from 'react';
 import Navbar from '../../components/Navbar/Navbar';
 import AuthContext from '../../services/AuthContext';
 import styles from './dashboard.module.css';
 import Link from 'next/link';
+import CampaignList from '../../components/CampaignList/CampaignList';
 
 const initialUser = {
   firstName: ''
@@ -18,15 +19,20 @@ const initialCpgnInputs = {
 
 export default function Dashboard () {
   const [user, setUser] = useState(initialUser);
-  const [createCpgn, setCreateCpgn] = useState(false);
-  const [currentCpgns, setCurrentCpgns] = useState(true);
+  const [createCpgnView, setCreateCpgnView] = useState(false);
+  const [viewCurrCampaigns, setViewCurrCampaigns] = useState(true);
   const [campaignInputs, setCampaignInputs] = useState(initialCpgnInputs);
-  const { isAuthenticated, setAuth, setActiveId } = useContext(AuthContext);
+  const [currentCampaigns, setCurrentCampaigns] = useState([]);
+  const [pastCampaigns, setPastCampaigns] = useState([]);
+  const { setAuth, setActiveId } = useContext(AuthContext);
   const router = useRouter();
 
   useEffect(async () => {
     const accessToken = localStorage.getItem('accessToken');
     const res = await profile(accessToken);
+    const currCpgns = await getCurrentCampaigns(accessToken);
+    const pastCpgns = await getPastCampaigns(accessToken);
+
     if (!res) {
       setAuth(false);
       alert('Please log in again.');
@@ -36,23 +42,31 @@ export default function Dashboard () {
       alert(`${res.message}`);
       return router.push('/');
     }
+    if (currCpgns.message) {
+      alert(`${currCpgns.message}`);
+    }
+    if (pastCpgns.message) {
+      alert(`${pastCpgns.message}`);
+    }
     setAuth(true);
     const { firstName } = res;
     setUser(oldUser => ({
       ...oldUser,
       firstName
     }));
-  }, [isAuthenticated]);
+    setCurrentCampaigns(prevCpgns => prevCpgns.concat(currCpgns));
+    setPastCampaigns(prevCpgns => prevCpgns.concat(pastCpgns));
+  }, []);
 
   const handleCreateCampaign = (e) => {
-    setCreateCpgn(currentStatus => {
+    setCreateCpgnView(currentStatus => {
       if (currentStatus) return false;
       return true;
     })
   }
 
   const handleCurrentCampaigns = (e) => {
-    setCurrentCpgns(currentStatus => {
+    setViewCurrCampaigns(currentStatus => {
       if (currentStatus) return false;
       return true;
     })
@@ -95,7 +109,7 @@ export default function Dashboard () {
       <div className={styles.dashboardPage}>
         <div className={styles.dashboardInfoSection}>
           <p className={styles.dashboardName}>Welcome, {user.firstName}</p>
-          {createCpgn
+          {createCpgnView
             ? <div className={styles.createContainer}>
               <div className={styles.formTitle}>Create campaign</div>
               <form className={styles.form} onSubmit={handleSubmit}>
@@ -117,7 +131,8 @@ export default function Dashboard () {
                   />
                   {!campaignInputs.startDate ? <span className={styles.reqFieldWarn}>Please enter a campaign start date</span> : <></>}
                 </div>
-                <div className={styles.createCpgnBtns}>
+                {/* Invite players goes here */}
+                <div className={styles.createCpgnViewBtns}>
                   <button className={styles.cancelBtn} onClick={handleCreateCampaign}>
                     &nbsp;Cancel&nbsp;
                   </button>
@@ -127,24 +142,29 @@ export default function Dashboard () {
                 </div>
               </form>
             </div>
-            : <div className={styles.dashboardContainer}>
-              {currentCpgns
-                ? <div className={styles.formTitle}>Current campaigns</div>
-                : <div className={styles.formTitle}>Past campaigns</div>}
-              {currentCpgns
-                ? <Link href="/dashboard"><a onClick={handleCurrentCampaigns}>View past campaigns</a></Link>
-                : <Link href="/dashboard"><a onClick={handleCurrentCampaigns}>View current campaigns</a></Link>}
-              <ul>
-                <li>Campaign 3 <span>edit</span></li>
-                <li>Campaign 4 <span>join</span></li>
-              </ul>
-              <button className={styles.formSubmit} onClick={handleCreateCampaign}>
+            : <div className={styles.campaignListContainer}>
+              {viewCurrCampaigns
+                ? <div className={styles.campaignList}>
+                  <div className={styles.formTitle}>Current campaigns</div>
+                  <Link href="/dashboard">
+                    <a className={styles.changeCampaigns} onClick={handleCurrentCampaigns}>View past campaigns</a>
+                  </Link>
+                  <CampaignList campaigns={currentCampaigns}/>
+                </div>
+                : <div className={styles.campaignList}>
+                  <div className={styles.formTitle}>Past campaigns</div>
+                  <Link href="/dashboard">
+                    <a className={styles.changeCampaigns} onClick={handleCurrentCampaigns}>View current campaigns</a>
+                  </Link>
+                  <CampaignList campaigns={pastCampaigns}/>
+                </div>}
+              <button className={styles.createButton} onClick={handleCreateCampaign}>
                 &nbsp;Create new campaign&nbsp;
               </button>
             </div>
           }
         </div>
-        <div>{createCpgn
+        <div>{createCpgnView
           ? <img height="800" src="https://intron.one/public/images/Dire_Wolf.jpg"/>
           : <img height="800" src="https://intron.one/public/images/Hellbringer_2.jpg"/>}</div>
       </div>

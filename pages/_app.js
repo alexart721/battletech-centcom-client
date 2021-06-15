@@ -3,9 +3,9 @@ import '../styles.css';
 import AuthContext from '../services/AuthContext';
 
 const initialActiveIds = {
-  activeCampaign: 0,
-  activeContract: 0,
-  activeOp: 0
+  campaign: 0,
+  contract: 0,
+  op: 0
 };
 
 // This default export is required in a new `pages/_app.js` file.
@@ -21,17 +21,17 @@ export default function MyApp ({ Component, pageProps }) {
     if (typeAsString === 'campaign') {
       setActiveIds(prevState => ({
         ...prevState,
-        activeCampaign: id
+        campaign: id
       }));
     } else if (typeAsString === 'contract') {
       setActiveIds(prevState => ({
         ...prevState,
-        activeContract: id
+        contract: id
       }));
     } else if (typeAsString === 'op') {
       setActiveIds(prevState => ({
         ...prevState,
-        activeOp: id
+        op: id
       }));
     }
   }

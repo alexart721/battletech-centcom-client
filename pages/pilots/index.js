@@ -1,39 +1,20 @@
 import Head from 'next/head';
-import { profile, getMechs, assignMech } from '../../services';
+import { profile, assignMech } from '../../services';
 import { useRouter } from 'next/router';
 import { useContext, useEffect, useState } from 'react';
 import Navbar from '../../components/Navbar/Navbar';
 import AuthContext from '../../services/AuthContext';
-import styles from './mechs.module.css';
+import styles from './pilots.module.css';
 import MechList from '../../components/MechList/MechList';
 
-const initialMech = {
-  name: '',
-  model: '',
-  status: '',
-  size: '',
-  cost: '',
-  movement: '',
-  jumpCapable: '',
-  overHeatLimit: '',
-  damageShort: '',
-  damageMed: '',
-  damageLong: '',
-  armor: '',
-  structure: '',
-  imageUrl: ''
-}
-
 export default function Profile () {
-  const [mechs, setMechs] = useState([]);
-  const [selectedMech, setSelectedMech] = useState(initialMech);
+  const [selectedMech, setSelectedMech] = useState({});
   const { setAuth, activeIds } = useContext(AuthContext);
   const router = useRouter();
 
   useEffect(async () => {
     const accessToken = localStorage.getItem('accessToken');
     const res = await profile(accessToken);
-    const mechRes = await getMechs(accessToken);
 
     if (!res) {
       setAuth(false);
@@ -45,7 +26,6 @@ export default function Profile () {
       return router.push('/');
     }
     setAuth(true);
-    setMechs(prevMechs => prevMechs.concat(mechRes));
   }, []);
 
   const handleSubmit = async (e) => {
@@ -77,11 +57,11 @@ export default function Profile () {
       </Head>
       <Navbar />
       <div className={styles.profilePage}>
-          <p className={styles.profileName}>Choose Mech</p>
-          <MechList mechs={mechs} selectedMech={selectedMech} handleClick={handleClick} />
+          <p className={styles.profileName}>Create pilot</p>
+          {/* <MechList mechs={mechs} selectedMech={selectedMech} handleClick={handleClick} />
           <button className={styles.formSubmit} onClick={handleSubmit}>
             &nbsp;Create Pilot &gt;&gt;&nbsp;
-          </button>
+          </button> */}
       </div>
     </>
   );

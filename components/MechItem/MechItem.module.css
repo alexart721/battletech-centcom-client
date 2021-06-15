@@ -1,0 +1,31 @@
+.mechItem {
+  padding: 2rem;
+}
+
+.mechImage {
+  border-style: solid;
+  border-width: 2px;
+  border-radius: 2px;
+}
+
+.selectedMech {
+  border-style: solid;
+  border-width: 2px;
+  border-radius: 2px;
+  border-color: #d57b26;
+  box-shadow: 0px 0px 2px 5px #d57b26;
+}
+
+.mechName {
+  margin-top: 1rem;
+  font-weight: bold;
+  font-size: 1.25rem;
+}
+
+.mechSpecTitle {
+  font-weight: bold;
+}
+
+.list {
+  margin-left: 1.5rem;
+}

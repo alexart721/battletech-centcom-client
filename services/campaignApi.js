@@ -12,8 +12,32 @@ const getCampaign = (id, accessToken) => {
   });
 }
 
-const getCampaigns = (accessToken) => {
+const getAllCampaigns = (accessToken) => {
   return customFetch('/campaigns', {
+    method: 'GET',
+    credentials: 'include',
+    mode: 'cors',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${accessToken}`
+    }
+  });
+}
+
+const getCurrentCampaigns = (accessToken) => {
+  return customFetch('/campaigns/current', {
+    method: 'GET',
+    credentials: 'include',
+    mode: 'cors',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${accessToken}`
+    }
+  });
+}
+
+const getPastCampaigns = (accessToken) => {
+  return customFetch('/campaigns/past', {
     method: 'GET',
     credentials: 'include',
     mode: 'cors',
@@ -38,6 +62,7 @@ const createCampaign = (campaign, accessToken) => {
 }
 
 const updateCampaign = (campaign, accessToken) => {
+  console.log(campaign);
   return customFetch(`/campaigns/${campaign.id}`, {
     method: 'PUT',
     credentials: 'include',
@@ -52,7 +77,9 @@ const updateCampaign = (campaign, accessToken) => {
 
 module.exports = {
   getCampaign,
-  getCampaigns,
+  getAllCampaigns,
+  getCurrentCampaigns,
+  getPastCampaigns,
   createCampaign,
   updateCampaign
 }
