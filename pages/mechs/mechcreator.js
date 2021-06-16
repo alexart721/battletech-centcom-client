@@ -9,7 +9,6 @@ import styles from './mechs.module.css';
 const initialMech = {
   name: 'string',
   model: 'string',
-  status: 'Operational',
   size: 'integer',
   cost: 'integer',
   movement: 'integer',
@@ -19,7 +18,8 @@ const initialMech = {
   damageMed: 'integer',
   damageLong: 'integer',
   armor: 'integer',
-  structure: 'integer'
+  structure: 'integer',
+  imageUrl: 'string'
 }
 
 export default function MechCreator () {
@@ -75,7 +75,7 @@ export default function MechCreator () {
         <title>Battletech CENTCOM</title>
       </Head>
       <Navbar />
-      <div className={styles.profilePage}>
+      <div className={styles.mechCreatorPage}>
         <div className={styles.profileInfoSection}>
           <p className={styles.profileName}>Mech Creator</p>
           <div className={styles.profileContainer}>
@@ -98,16 +98,6 @@ export default function MechCreator () {
                       placeholder="Model"
                       name="model"
                       value={mech.model}
-                      onChange={handleChange}
-                    />
-                </div>
-                <div className={styles.inputLine}>
-                  <span>Status: </span>
-                  <input className={styles.input}
-                      type="text"
-                      placeholder="Status"
-                      name="status"
-                      value={mech.status}
                       onChange={handleChange}
                     />
                 </div>
@@ -210,6 +200,16 @@ export default function MechCreator () {
                     value={mech.structure}
                     onChange={handleChange}
                   />
+                </div>
+                <div className={styles.inputLine}>
+                  <span>Image Url: </span>
+                  <input className={styles.input}
+                      type="text"
+                      placeholder="Image Url"
+                      name="imageUrl"
+                      value={mech.imageUrl}
+                      onChange={handleChange}
+                    />
                 </div>
               </div>
               <div className={styles.formItem}>
