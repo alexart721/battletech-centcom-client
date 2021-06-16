@@ -83,6 +83,7 @@ export default function Campaigns () {
       if (reqOp && activeIds.op === 0) {
         setActiveId('op', reqOp.id);
       }
+      // Make a function for these
       for (const attribute in reqMech) {
         setMech(prevMech => ({
           ...prevMech,

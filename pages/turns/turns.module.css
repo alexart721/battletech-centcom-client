@@ -1,6 +1,7 @@
 
 .testApp {
   font-family: 'Roboto Mono';font-size: 13px;
+  margin: 1rem;
 }
 
 .tbl {
@@ -76,12 +77,9 @@ display: flex;
   border-radius: 50%;
   vertical-align: middle;
   border: 1px solid black;
-  -webkit-appearance: none;
-  outline: none;
-  cursor: pointer;
   margin-left: -1px;
 }
 
-.checkboxRound:checked {
+/* .checkboxRound:checked {
   background-color: red;
-}
+} */

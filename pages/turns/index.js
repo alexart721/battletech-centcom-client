@@ -1,8 +1,65 @@
 import Head from 'next/head';
+import { useState, useContext, useEffect } from 'react';
+import { useRouter } from 'next/router';
+import {
+  profile, getAssignedMech, getAssignedPilot,
+  getContractCurrentOp
+} from '../../services';
 import Navbar from '../../components/Navbar/Navbar';
 import styles from './turns.module.css';
+import AuthContext from '../../services/AuthContext';
 
 export default function Turns () {
+  const [mech, setMech] = useState({});
+  const [pilot, setPilot] = useState({});
+  const [op, setOp] = useState({});
+  const { setAuth, activeIds /* , setActiveId */ } = useContext(AuthContext);
+  const router = useRouter();
+  let mechArmorArr = [];
+  let mechStructureArr = [];
+
+  useEffect(async () => {
+    const accessToken = localStorage.getItem('accessToken');
+    const res = await profile(accessToken);
+
+    if (!res) {
+      setAuth(false);
+      alert('Please log in again.');
+      return router.push('/');
+    } else if (res.error) {
+      setAuth(false);
+      alert(`${res.message}`);
+      return router.push('/');
+    }
+    setAuth(true);
+
+    const reqPilot = await getAssignedPilot(activeIds.campaign, accessToken);
+    const reqMech = await getAssignedMech(reqPilot.id, accessToken);
+    const reqOp = await getContractCurrentOp(activeIds.contract, accessToken);
+    mechArmorArr = Array.from({ length: reqMech.armor }, (x, i) => i);
+    mechStructureArr = Array.from({ length: reqMech.structure }, (x, i) => i);
+
+    // Make a function for these
+    for (const attribute in reqMech) {
+      setMech(prevMech => ({
+        ...prevMech,
+        [attribute]: reqMech[attribute]
+      }));
+    }
+    for (const attribute in reqPilot) {
+      setPilot(prevPilot => ({
+        ...prevPilot,
+        [attribute]: reqPilot[attribute]
+      }));
+    }
+    for (const attribute in reqOp) {
+      setOp(prevOp => ({
+        ...prevOp,
+        [attribute]: reqOp[attribute]
+      }));
+    }
+  }, []);
+
   return (
     <div>
       <Head>
@@ -15,89 +72,54 @@ export default function Turns () {
       <Navbar />
       <div className={styles.testApp}>
         <div>
-          <b>Operation name placeholder</b>
+          <b>{op.name}</b>
           <br/>
-          <b>Objective:</b> operation objective
+          <b>Objective:</b> {op.objectives}
         </div>
         <div className={styles.row}>
-          <div className={styles.cell5} v-for="bonus in bonuses">
-            <b>bonus title</b> - bonus effect (bonus owner)&nbsp;
+          <div className={styles.cell5}>
+            <b>Start date: </b>{op.startDate}&nbsp;
           </div>
         </div>
         <div className={styles.tbl}>
-          <div className={`${styles.tblRow} ${styles.mechRow}`} v-for="(mech, index) in friendlyMechs" index="index" mech-collection="friendly">
+          <div className={`${styles.tblRow} ${styles.mechRow}`} mech-collection="friendly">
             <div className={`${styles.cell} ${styles.bordered}`}>
               <div className={styles.row}>
-                <div className={styles.cell8}>mech name</div>
-                {/* <!-- <div class="cell-1"><b>HP</b>: {{mech.hp}}</div> --> */}
-                <div className={`${styles.cell1} ${styles.pl5} ${styles.textRight}`}><b>BTN</b>: mech btn</div>
+                <div className={styles.cell8}>{mech.name}</div>
+                <div className={`${styles.cell1} ${styles.pl5} ${styles.textRight}`}><b>BTN</b>: {pilot.baseTargetNum}</div>
               </div>
               <div className={styles.row}>
-                <div className={styles.cell8}>pilot</div>
-                {/* <!-- <div class="cell-1"><b>FT</b>: {{mech.ft}}</div> --> */}
-                <div className={`${styles.cell1} ${styles.pl5} ${styles.textRight}`}><b>TMM</b>: <span name="tmm">tmm</span></div>
+                <div className={styles.cell8}>{pilot.firstName} {pilot.lastName}</div>
+                <div className={`${styles.cell1} ${styles.pl5} ${styles.textRight}`}><b>TMM</b>: <span name="tmm">{pilot.totalMovementModifier}</span></div>
               </div>
               <div className={styles.row}>
                 <div className={styles.cell8}></div>
-                {/* <!-- <div class="cell-1 pl5"><b>MR</b>: {{mech.mr}}</div> --> */}
-                <div className={`${styles.cell1} ${styles.pl5} ${styles.textRight}`}><b>EDG</b>: edge</div>
+                <div className={`${styles.cell1} ${styles.pl5} ${styles.textRight}`}><b>EDG</b>: {pilot.edge}</div>
               </div>
             </div>
             <div className={`${styles.cell} ${styles.bordered}`}>
               <div className={styles.row}>
-                <div v-if="mech.trackHeat === true" className={styles.cell3}><b>OV</b>:overheat</div>
-                <div v-if="mech.trackHeat === true" className={`${styles.cell7} ${styles.textRight}`}><b>HT</b>:1|2|3|S</div>
+                <div v-if="mech.trackHeat === true" className={styles.cell3}><b>OV</b>: {mech.overHeatLimit}</div>
+                {/* <div v-if="mech.trackHeat === true" className={`${styles.cell7} ${styles.textRight} ${styles.right}`}><b>HT</b>:1|2|3|S</div> */}
                 <div v-if="mech.trackHeat === false" className={styles.cell3}>&nbsp;</div>
                 <div v-if="mech.trackHeat === false" className={`${styles.cell7} ${styles.textRight}`}>&nbsp;</div>
               </div>
               <div className={styles.row}>
                 <div className={styles.cell}><b>A</b>:
-                  <input type="checkbox" className={styles.checkboxRound} v-for="n in mech.armor" />
+                  {mechArmorArr.map(element => (
+                    <div className={styles.checkboxRound} key={mech.id + element}></div>
+                  ))}
                 </div>
-                <div v-if="!_.isUndefined(mech.th)" className={`${styles.cell1} ${styles.textRight}`}><b>TH</b>:thrust&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
               </div>
               <div className={styles.row}>
                 <div className={styles.cell}><b>S</b>:
-                  <input type="checkbox" className={styles.checkboxRound} v-for="n in mech.structure" />
+                {mechStructureArr.map(element => (
+                  <input type="checkbox" className={styles.checkboxRound} key={mech.id + element} />
+                ))}
                 </div>
-                <div v-if="mech.moveType === 'a' || mech.moveType === 'v'" className={`${styles.cell} ${styles.textRight}`}><b>ALT</b>:S|M|L|E</div>
+                <div className={`${styles.cell} ${styles.textRight}`}><b>ALT</b>:S|M|L|E</div>
               </div>
             </div>
-            {/* <div className={`${styles.cell} ${styles.bordered}`}>
-              <div className={styles.row}>
-                <div className={styles.cell3}><b>PV</b>: mech pv</div>
-                <!-- <div className={`${styles.cell7} ${styles.textRight}`}><span v-if="mech.shortAccMod >= 0">+</span>{{mech.shortAccMod}} / <span v-if="mech.medAccMod >= 0">+</span>{{mech.medAccMod}} / <span v-if="mech.longAccMod >= 0">+</span>{{mech.longAccMod}}&nbsp;</div> -->
-                <div className={`${styles.cell7} ${styles.textRight}`}><span name="acc" v-html="mech.accString()"></span></div>
-              </div>
-              <div className={styles.row}>
-                <!-- <div className={`${styles.cell} ${styles.textRight}`}>&nbsp;{{mech.shortDmg}}&nbsp;/&nbsp;&nbsp;{{mech.medDmg}}&nbsp;/&nbsp;&nbsp;{{mech.longDmg}}&nbsp;</div> -->
-                <div className={`${styles.cell} ${styles.textRight}`}><span name="dmg" v-html="mech.dmgString()">mech damage</span></div>
-              </div>
-              <div className={styles.row}>
-                <div className={styles.cell}><b>SPC</b>:&nbsp;mech specials</div>
-              </div>
-            </div>
-            <div className={`${styles.cellStatic} ${styles.bordered}`}>
-              <div className={styles.row}>
-                <div className={styles.cell}><b>MV</b>: <span name="mv">mech movement</span></div>
-              </div>
-              <div className={styles.row}>
-                <div className={styles.cell5}><b>MP</b>:
-                  <input type="checkbox" onClick="processCriticalHit" name="mp" className={styles.checkboxRound} v-for="n in mech.mp" />
-                </div>
-                <div className={`${styles.cell5} ${styles.pl5}`}><b>EN</b>:
-                  <input type="checkbox" onClick="processCriticalHit" name="en" className={styles.checkboxRound} v-for="n in mech.en" />
-                </div>
-              </div>
-              <div className={styles.row}>
-                <div className={styles.cell5}><b>WP</b>:
-                  <input type="checkbox" onClick="processCriticalHit" name="wp" className={styles.checkboxRound} v-for="n in mech.wp" />
-                </div>
-                <div className={`${styles.cell5} ${styles.pl5}`}><b>FC</b>:
-                    <input type="checkbox" onClick="processCriticalHit" name="fc" className={styles.checkboxRound} v-for="n in mech.fc" />
-                </div>
-              </div>
-            </div> */}
           </div>
         </div>
       </div>

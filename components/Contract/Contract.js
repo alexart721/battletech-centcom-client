@@ -25,7 +25,7 @@ const Contract = ({ contract, op }) => {
         {showOp
           ? <div className={styles.showOp}>
             <div className={styles.detail}>
-              <span className={styles.key}>Current op:</span> {op.name}
+              <span className={styles.key}>Current op:</span> <Link href={'/turns'}>{op.name}</Link>
               <span className={styles.editText}><Link href={`/ops/${op.id}`}>edit</Link></span>
             </div>
           </div>
