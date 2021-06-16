@@ -44,7 +44,6 @@ export default function Campaigns () {
       alert(`${res.message}`);
       return router.push('/');
     }
-    setAuth(true);
 
     const { id } = router.query;
     const campaign = await getCampaign(id, accessToken);
