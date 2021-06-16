@@ -1,13 +1,13 @@
 import Head from 'next/head';
-import { profile, getContract, updateContract, createContract } from '../../services';
+import { profile, getOp, updateOp, createOp } from '../../services';
 import { useRouter } from 'next/router';
 import { useContext, useEffect, useState } from 'react';
 import Navbar from '../../components/Navbar/Navbar';
 import AuthContext from '../../services/AuthContext';
-import styles from './contracts.module.css';
+import styles from './ops.module.css';
 import moment from 'moment';
 
-const initialContract = {
+const initialOp = {
   id: '',
   name: '',
   objectives: '',
@@ -15,20 +15,19 @@ const initialContract = {
   endDate: ''
 };
 
-export default function Contracts () {
-  const [contract, setContract] = useState(initialContract);
+export default function Ops () {
+  const [op, setOp] = useState(initialOp);
   const { setAuth, activeIds, setActiveId } = useContext(AuthContext);
   const router = useRouter();
   const { id } = router.query;
 
   useEffect(async () => {
     if (activeIds.campaign === 0) {
-      alert('Please select a campaign.')
+      alert('Please select a campaign/operation.')
       router.push('/dashboard');
     }
     const accessToken = localStorage.getItem('accessToken');
     const res = await profile(accessToken);
-    const reqContract = await getContract(id, accessToken);
 
     if (!res) {
       setAuth(false);
@@ -40,10 +39,13 @@ export default function Contracts () {
       return router.push('/');
     }
 
+    setAuth(true);
+
     if (id !== 'create') {
-      const { id, name, objectives, startDate, endDate } = reqContract;
-      setContract(prevContract => ({
-        ...prevContract,
+      const reqOp = await getOp(id, accessToken);
+      const { name, objectives, startDate, endDate } = reqOp;
+      setOp(prevOp => ({
+        ...prevOp,
         id,
         name,
         objectives,
@@ -51,18 +53,17 @@ export default function Contracts () {
         endDate: (endDate ? moment(endDate).format('YYYY-MM-DD') : '')
       }));
     }
-    setAuth(true);
   }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     if (name === 'objectives') {
-      setContract((prevContract) => ({
+      setOp((prevContract) => ({
         ...prevContract,
         objectives: [value]
       }))
     } else {
-      setContract((prevContract) => ({
+      setOp((prevContract) => ({
         ...prevContract,
         [name]: value
       }));
@@ -72,12 +73,12 @@ export default function Contracts () {
   const handleCreate = async (e) => {
     e.preventDefault();
     const accessToken = localStorage.getItem('accessToken');
-    const newContract = await createContract(contract, activeIds.campaign, accessToken);
+    const newOp = await createOp(op, activeIds.contract, accessToken);
 
-    if (newContract.error) {
-      alert(`${newContract.message}`);
+    if (newOp.error) {
+      alert(`${newOp.message}`);
     } else {
-      setActiveId('contract', newContract.id);
+      setActiveId('op', newOp.id);
       router.push(`/campaigns/${activeIds.campaign}`);
     }
   };
@@ -85,10 +86,10 @@ export default function Contracts () {
   const handleUpdate = async (e) => {
     e.preventDefault();
     const accessToken = localStorage.getItem('accessToken');
-    const updatedContract = await updateContract(contract, accessToken);
+    const updatedOp = await updateOp(op, accessToken);
 
-    if (updatedContract.error) {
-      alert(`${updatedContract.message}`);
+    if (updatedOp.error) {
+      alert(`${updatedOp.message}`);
     } else {
       router.push(`/campaigns/${activeIds.campaign}`);
     }
@@ -107,17 +108,17 @@ export default function Contracts () {
       <div className={styles.profilePage}>
         {id === 'create'
           ? <div className={styles.profileInfoSection}>
-          <p className={styles.profileName}>Create contract</p>
+          <p className={styles.profileName}>Create op</p>
           <div className={styles.profileContainer}>
             <form className={styles.form} onSubmit={handleCreate}>
               <div className={styles.formItem}>
                 <div className={styles.inputLine}>
-                  <span>Contract name: </span>
+                  <span>Op name: </span>
                   <input className={styles.input}
                       type="text"
-                      placeholder="Contract name"
+                      placeholder="Op name"
                       name="name"
-                      value={contract.name}
+                      value={op.name}
                       onChange={handleChange}
                     />
                 </div>
@@ -127,7 +128,7 @@ export default function Contracts () {
                       type="text"
                       placeholder="Objective"
                       name="objectives"
-                      value={contract.objectives} // Update when making list
+                      value={op.objectives} // Update when making list
                       onChange={handleChange}
                     />
                 </div>
@@ -136,7 +137,7 @@ export default function Contracts () {
                   <input className={styles.input}
                       type="date"
                       name="startDate"
-                      value={contract.startDate}
+                      value={op.startDate}
                       onChange={handleChange}
                     />
                 </div>
@@ -153,17 +154,17 @@ export default function Contracts () {
           </div>
         </div>
           : <div className={styles.profileInfoSection}>
-          <p className={styles.profileName}>{contract.name}</p>
+          <p className={styles.profileName}>{op.name}</p>
           <div className={styles.profileContainer}>
             <form className={styles.form} onSubmit={handleUpdate}>
               <div className={styles.formItem}>
                 <div className={styles.inputLine}>
-                  <span>Contract name: </span>
+                  <span>Op name: </span>
                   <input className={styles.input}
                       type="text"
-                      placeholder="Contract name"
+                      placeholder="Op name"
                       name="name"
-                      value={contract.name}
+                      value={op.name}
                       onChange={handleChange}
                     />
                 </div>
@@ -173,7 +174,7 @@ export default function Contracts () {
                       type="text"
                       placeholder="Objective"
                       name="objectives"
-                      value={contract.objectives[0]} // Update when making list
+                      value={op.objectives[0]} // Update when making list
                       onChange={handleChange}
                     />
                 </div>
@@ -182,7 +183,7 @@ export default function Contracts () {
                   <input className={styles.input}
                       type="date"
                       name="startDate"
-                      value={contract.startDate}
+                      value={op.startDate}
                       onChange={handleChange}
                     />
                 </div>
@@ -191,7 +192,7 @@ export default function Contracts () {
                   <input className={styles.input}
                     type="date"
                     name="endDate"
-                    value={contract.endDate}
+                    value={op.endDate}
                     onChange={handleChange}
                   />
                 </div>
@@ -208,7 +209,7 @@ export default function Contracts () {
           </div>
         </div>
         }
-        <div><img height="600" src="https://intron.one/public/images/King_Crab.jpg"/></div>
+        <div><img height="600" src="https://intron.one/public/images/Timber_Wolf.jpg"/></div>
       </div>
     </>
   );

@@ -28,6 +28,14 @@
   justify-content: center;
 }
 
+.showOp {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  margin-left: 1rem;
+  margin-bottom: 1rem;
+}
+
 .detail {
   margin-top: 0.5rem;
 }

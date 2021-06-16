@@ -49,15 +49,12 @@ export default function Profile () {
   }
 
   const handleSubmit = async (e) => {
-    // Check the client-session to see how to handle redirects
     e.preventDefault();
     const accessToken = localStorage.getItem('accessToken');
     const res = await updateProfile(user, accessToken);
 
     if (res.error) {
-      setAuth(false);
       alert(`${res.message}`);
-      return router.push('/');
     } else {
       alert('User details updated!');
       const { firstName, lastName, email } = res;

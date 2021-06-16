@@ -3,6 +3,7 @@ import { getCampaign, getAllCampaigns, getCurrentCampaigns, getPastCampaigns, cr
 import { createMech, getMechs, getMech, getAssignedMech, assignMech } from './mechApi';
 import { createPilot, getPilots, getPilot, getAssignedPilot, assignPilot } from './pilotApi';
 import { getContract, getCampaignCurrentContract, getCampaignPastContracts, createContract, updateContract } from './contractApi';
+import { getOp, getContractCurrentOp, getContractPastOps, createOp, updateOp } from './operationApi';
 
 module.exports = {
   register,
@@ -30,5 +31,10 @@ module.exports = {
   getCampaignCurrentContract,
   getCampaignPastContracts,
   createContract,
-  updateContract
+  updateContract,
+  getOp,
+  getContractCurrentOp,
+  getContractPastOps,
+  createOp,
+  updateOp
 }

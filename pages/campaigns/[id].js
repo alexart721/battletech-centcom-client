@@ -1,7 +1,7 @@
 import Head from 'next/head';
 import {
   profile, getCampaign, updateCampaign, getAssignedMech,
-  getAssignedPilot, getCampaignCurrentContract
+  getAssignedPilot, getCampaignCurrentContract, getContractCurrentOp
 } from '../../services';
 import { useRouter } from 'next/router';
 import { useContext, useEffect, useState } from 'react';
@@ -27,6 +27,7 @@ export default function Campaigns () {
   const [mech, setMech] = useState({});
   const [pilot, setPilot] = useState({});
   const [contract, setContract] = useState({});
+  const [op, setOp] = useState({});
   const [activeContract, setActiveContract] = useState(false);
   const { setAuth, activeIds, setActiveId } = useContext(AuthContext);
 
@@ -65,6 +66,8 @@ export default function Campaigns () {
       const reqPilot = await getAssignedPilot(id, accessToken);
       const reqMech = await getAssignedMech(reqPilot.id, accessToken);
       const reqContract = await getCampaignCurrentContract(id, accessToken);
+      const reqOp = await getContractCurrentOp(reqContract.id, accessToken);
+
       if (activeIds.campaign === 0) {
         setActiveId('campaign', id);
       }
@@ -76,6 +79,9 @@ export default function Campaigns () {
       }
       if (reqContract && activeIds.contract === 0) {
         setActiveId('contract', reqContract.id);
+      }
+      if (reqOp && activeIds.op === 0) {
+        setActiveId('op', reqOp.id);
       }
       for (const attribute in reqMech) {
         setMech(prevMech => ({
@@ -93,6 +99,12 @@ export default function Campaigns () {
         setContract(prevContract => ({
           ...prevContract,
           [attribute]: reqContract[attribute]
+        }));
+      }
+      for (const attribute in reqOp) {
+        setOp(prevOp => ({
+          ...prevOp,
+          [attribute]: reqOp[attribute]
         }));
       }
       if (contract) {
@@ -207,7 +219,7 @@ export default function Campaigns () {
             </div>
             : <div className={styles.campaignListContainer}>
               {activeContract
-                ? <Contract contract={contract} />
+                ? <Contract contract={contract} op={op} />
                 : <div className={styles.createContract}>
                   <button className={styles.editSubmitBtn} onClick={handleCreateContract}>
                     &nbsp;New Contract&nbsp;
