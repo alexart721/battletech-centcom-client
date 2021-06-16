@@ -1,6 +1,8 @@
 import { register, login, logout, profile, updateProfile } from './userApi';
 import { getCampaign, getAllCampaigns, getCurrentCampaigns, getPastCampaigns, createCampaign, updateCampaign } from './campaignApi';
-import { createMech, getMechs, assignMech } from './mechApi';
+import { createMech, getMechs, getMech, getAssignedMech, assignMech } from './mechApi';
+import { createPilot, getPilots, getPilot, getAssignedPilot, assignPilot } from './pilotApi';
+import { getContract, getCampaignCurrentContract, getCampaignPastContracts, createContract, updateContract } from './contractApi';
 
 module.exports = {
   register,
@@ -16,5 +18,17 @@ module.exports = {
   updateCampaign,
   createMech,
   getMechs,
-  assignMech
+  getMech,
+  getAssignedMech,
+  assignMech,
+  createPilot,
+  getPilot,
+  getPilots,
+  getAssignedPilot,
+  assignPilot,
+  getContract,
+  getCampaignCurrentContract,
+  getCampaignPastContracts,
+  createContract,
+  updateContract
 }

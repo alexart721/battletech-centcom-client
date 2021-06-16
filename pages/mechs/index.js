@@ -24,10 +24,10 @@ const initialMech = {
   imageUrl: ''
 }
 
-export default function Profile () {
+export default function Mechs () {
   const [mechs, setMechs] = useState([]);
   const [selectedMech, setSelectedMech] = useState(initialMech);
-  const { setAuth, activeIds } = useContext(AuthContext);
+  const { setAuth, setActiveId, activeIds } = useContext(AuthContext);
   const router = useRouter();
 
   useEffect(async () => {
@@ -56,6 +56,7 @@ export default function Profile () {
     if (res.error) {
       alert(`${res.message}`);
     } else {
+      setActiveId('mech', res.id);
       router.push('/pilots');
     }
   }

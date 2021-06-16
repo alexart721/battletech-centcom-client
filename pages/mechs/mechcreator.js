@@ -22,7 +22,7 @@ const initialMech = {
   structure: 'integer'
 }
 
-export default function Profile () {
+export default function MechCreator () {
   const [mech, setMech] = useState(initialMech);
   const { setAuth } = useContext(AuthContext);
   const router = useRouter();

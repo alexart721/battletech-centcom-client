@@ -1,7 +1,43 @@
 import customFetch from './customFetch';
 
-const createMech = (mech, accessToken) => {
-  return customFetch('/mechs', {
+const getContract = (id, accessToken) => {
+  return customFetch(`/contracts/${id}`, {
+    method: 'GET',
+    credentials: 'include',
+    mode: 'cors',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${accessToken}`
+    }
+  });
+}
+
+const getCampaignCurrentContract = (campaignId, accessToken) => {
+  return customFetch(`/contracts/current/${campaignId}`, {
+    method: 'GET',
+    credentials: 'include',
+    mode: 'cors',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${accessToken}`
+    }
+  });
+}
+
+const getCampaignPastContracts = (campaignId, accessToken) => {
+  return customFetch(`/contracts/past/${campaignId}`, {
+    method: 'GET',
+    credentials: 'include',
+    mode: 'cors',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${accessToken}`
+    }
+  });
+}
+
+const createContract = (contract, campaignId, accessToken) => {
+  return customFetch(`/contracts/${campaignId}`, {
     method: 'POST',
     credentials: 'include',
     mode: 'cors',
@@ -9,63 +45,27 @@ const createMech = (mech, accessToken) => {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${accessToken}`
     },
-    body: JSON.stringify(mech)
+    body: JSON.stringify(contract)
   });
 }
 
-const getMechs = (accessToken) => {
-  return customFetch('/mechs', {
-    method: 'GET',
-    credentials: 'include',
-    mode: 'cors',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${accessToken}`
-    }
-  });
-}
-
-const getMech = (id, accessToken) => {
-  return customFetch(`/mechs/${id}`, {
-    method: 'GET',
-    credentials: 'include',
-    mode: 'cors',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${accessToken}`
-    }
-  });
-}
-
-const getAssignedMech = (pilotId, accessToken) => {
-  return customFetch(`/mechs/assigned/${pilotId}`, {
-    method: 'GET',
-    credentials: 'include',
-    mode: 'cors',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${accessToken}`
-    }
-  });
-}
-
-const assignMech = (mech, campaignId, accessToken) => {
-  return customFetch(`/mechs/assign/${campaignId}`, {
-    method: 'POST',
+const updateContract = (contract, accessToken) => {
+  return customFetch(`/contracts/${contract.id}`, {
+    method: 'PUT',
     credentials: 'include',
     mode: 'cors',
     headers: {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${accessToken}`
     },
-    body: JSON.stringify(mech)
+    body: JSON.stringify(contract)
   });
 }
 
 module.exports = {
-  createMech,
-  getMechs,
-  getMech,
-  getAssignedMech,
-  assignMech
+  getContract,
+  getCampaignCurrentContract,
+  getCampaignPastContracts,
+  createContract,
+  updateContract
 }

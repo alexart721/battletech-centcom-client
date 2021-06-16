@@ -42,10 +42,10 @@ export default function Dashboard () {
       alert(`${res.message}`);
       return router.push('/');
     }
-    if (currCpgns.message) {
+    if (currCpgns.error) {
       alert(`${currCpgns.message}`);
     }
-    if (pastCpgns.message) {
+    if (pastCpgns.error) {
       alert(`${pastCpgns.message}`);
     }
     setAuth(true);

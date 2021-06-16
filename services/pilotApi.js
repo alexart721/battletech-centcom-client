@@ -1,7 +1,7 @@
 import customFetch from './customFetch';
 
-const createMech = (mech, accessToken) => {
-  return customFetch('/mechs', {
+const createPilot = (pilot, accessToken) => {
+  return customFetch('/pilots', {
     method: 'POST',
     credentials: 'include',
     mode: 'cors',
@@ -9,12 +9,12 @@ const createMech = (mech, accessToken) => {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${accessToken}`
     },
-    body: JSON.stringify(mech)
+    body: JSON.stringify(pilot)
   });
 }
 
-const getMechs = (accessToken) => {
-  return customFetch('/mechs', {
+const getPilots = (accessToken) => {
+  return customFetch('/pilots', {
     method: 'GET',
     credentials: 'include',
     mode: 'cors',
@@ -25,8 +25,8 @@ const getMechs = (accessToken) => {
   });
 }
 
-const getMech = (id, accessToken) => {
-  return customFetch(`/mechs/${id}`, {
+const getPilot = (id, accessToken) => {
+  return customFetch(`/pilots/${id}`, {
     method: 'GET',
     credentials: 'include',
     mode: 'cors',
@@ -37,8 +37,8 @@ const getMech = (id, accessToken) => {
   });
 }
 
-const getAssignedMech = (pilotId, accessToken) => {
-  return customFetch(`/mechs/assigned/${pilotId}`, {
+const getAssignedPilot = (campaignId, accessToken) => {
+  return customFetch(`/pilots/assigned/${campaignId}`, {
     method: 'GET',
     credentials: 'include',
     mode: 'cors',
@@ -49,8 +49,9 @@ const getAssignedMech = (pilotId, accessToken) => {
   });
 }
 
-const assignMech = (mech, campaignId, accessToken) => {
-  return customFetch(`/mechs/assign/${campaignId}`, {
+// pilot argument must have the database id for the pilot
+const assignPilot = (pilot, campaignId, mechId, accessToken) => {
+  return customFetch(`/pilots/assign/${campaignId}/${mechId}`, {
     method: 'POST',
     credentials: 'include',
     mode: 'cors',
@@ -58,14 +59,14 @@ const assignMech = (mech, campaignId, accessToken) => {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${accessToken}`
     },
-    body: JSON.stringify(mech)
+    body: JSON.stringify(pilot)
   });
 }
 
 module.exports = {
-  createMech,
-  getMechs,
-  getMech,
-  getAssignedMech,
-  assignMech
+  createPilot,
+  getPilots,
+  getPilot,
+  getAssignedPilot,
+  assignPilot
 }

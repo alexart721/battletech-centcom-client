@@ -22,7 +22,6 @@
   border-radius: 3px;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
   width: 25rem;
   margin-top: 2rem;
 }
@@ -108,13 +107,11 @@
   background: #d57b26;
   color: #fafafa;
   font-size: 1rem;
-  width: 6rem;
-  height: 2rem;
 }
 
 .editSubmit {
   display: flex;
-  justify-content: center;
+  justify-content: space-evenly;
 }
 
 .editSubmitBtn {
@@ -127,6 +124,39 @@
   background: #d57b26;
   color: #fafafa;
   font-size: 1rem;
-  width: 11rem;
-  margin-left: 1rem;
+}
+
+
+.mechItem {
+  padding: 2rem;
+}
+
+.mechImage {
+  border-style: solid;
+  border-width: 2px;
+  border-radius: 2px;
+}
+
+.mechName {
+  margin-top: 1rem;
+  font-weight: bold;
+  font-size: 1.25rem;
+}
+
+.mechSpecTitle {
+  font-weight: bold;
+}
+
+.list {
+  margin-left: 1.5rem;
+}
+
+.yourMech {
+  font-weight: bold;
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+}
+
+.createContract {
+  align-self: center;
 }

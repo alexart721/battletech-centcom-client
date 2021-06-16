@@ -1,0 +1,42 @@
+.contractContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-left: 1rem;
+}
+
+.contractName {
+  font-size: 1.5rem;
+  margin-top: 1rem;
+}
+
+.editSubmitBtn {
+  border: 0;
+  background: none;
+  box-shadow: none;
+  margin: 1rem 0;
+  border-radius: 0.3rem;
+  padding: 0.5rem;
+  background: #d57b26;
+  color: #fafafa;
+  font-size: 1rem;
+}
+
+.createOp {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.detail {
+  margin-top: 0.5rem;
+}
+
+.key {
+  font-weight: bold;
+}
+
+.editText {
+  font-size: 0.7rem;
+  margin-left: 1rem;
+}

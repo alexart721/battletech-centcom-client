@@ -54,7 +54,6 @@
   background: #d57b26;
   color: #fafafa;
   font-size: 1rem;
-  width: 100%;
 }
 
 .input {
@@ -69,39 +68,7 @@
   align-self: center;
 }
 
-.reqFieldWarn {
-  align-self: flex-end;
-  color: red;
-  font-size: 0.7rem;
-  margin-bottom: 0.5rem;
-}
-
-.mechItem {
-  padding: 2rem;
-}
-
-.mechImage {
-  border-style: solid;
-  border-width: 2px;
-  border-radius: 2px;
-}
-
-.mechName {
-  margin-top: 1rem;
-  font-weight: bold;
-  font-size: 1.25rem;
-}
-
-.mechSpecTitle {
-  font-weight: bold;
-}
-
-.list {
-  margin-left: 1.5rem;
-}
-
-.yourMech {
-  font-weight: bold;
-  font-size: 2rem;
-  margin-bottom: 1.5rem;
+.buttonRow {
+  display: flex;
+  justify-content: space-around;
 }

@@ -62,7 +62,6 @@ const createCampaign = (campaign, accessToken) => {
 }
 
 const updateCampaign = (campaign, accessToken) => {
-  console.log(campaign);
   return customFetch(`/campaigns/${campaign.id}`, {
     method: 'PUT',
     credentials: 'include',
